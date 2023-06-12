@@ -1,45 +1,61 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 import './task.css';
 import '../index.css';
 
 export default class Task extends React.Component {
+  static propTypes = {
+    description: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    checked: PropTypes.bool.isRequired,
+    time: PropTypes.string.isRequired,
+  };
 
-    static defaultProps = {
-        // description: 'ERROR', 
-        // completed: false, 
-        // checked: false, 
-        // time: `Error in loading tasks list`,
-        onDelete: () => {},
-        onCompleted: () => {}
+  state = {
+    inputText: '',
+  };
+
+  changeText = (e) => {
+    this.setState({
+      inputText: e.target.value,
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.inputText) {
+      this.props.completeEditing(this.state.inputText, this.props.id);
+    } else {
+      this.props.completeEditing(this.props.description, this.props.id);
     }
+  };
 
-    static propTypes = {
-        description: PropTypes.string.isRequired,
-        completed: PropTypes.bool.isRequired,
-        checked: PropTypes.bool.isRequired,
-        time: PropTypes.string.isRequired
+  render() {
+    const { description, time, onDelete, onCompleted, onEdit, completed, checked, edited } = this.props;
+
+    let className = 'view';
+    if (completed) {
+      className += ' completed';
     }
-
-    render() {
-        const {description, time, onDelete, onCompleted, completed, checked} = this.props
-
-        let className = 'view'
-        if (completed) {className += " completed"}
+    if (edited) {
+      className += ' editing';
+    }
 
     return (
-        <span className={className}>
-            <div className="view">
-                <input className="toggle" type="checkbox" defaultChecked={checked} onChange={onCompleted}/>
-                <label>
-                    <span className="description">{description}</span>
-                    <span className="created">{time}</span>
-                </label>
-                <button className="icon icon-edit"></button>
-                <button className="icon icon-destroy" onClick={onDelete}></button>
-            </div>
-            <input type="text" className="edit" defaultValue={description}></input>
-        </span>
-    )
-    }
+      <span className={className}>
+        <div className="view">
+          <input className="toggle" type="checkbox" defaultChecked={checked} onChange={onCompleted} />
+          <label>
+            <span className="description">{description}</span>
+            <span className="created">{time}</span>
+          </label>
+          <button className="icon icon-edit" onClick={onEdit}></button>
+          <button className="icon icon-destroy" onClick={onDelete}></button>
+        </div>
+        <form onSubmit={this.onSubmit}>
+          <input type="text" className="edit" onChange={this.changeText} defaultValue={description}></input>
+        </form>
+      </span>
+    );
+  }
 }
