@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { v4 as uuidv4 } from 'uuid';
 import './index.css';
 
 import NewTaskForm from './new-task-form/new-task-form';
@@ -8,13 +9,11 @@ import TaskList from './task-list/task-list';
 import Footer from './footer/footer';
 
 class App extends React.Component {
-  idCounter = 100;
-
   state = {
     lists: [
-      this.createListitem('Completed task', new Date('2023-06-03 21:00')),
-      this.createListitem('Editing task', new Date('2023-06-04 21:30')),
-      this.createListitem('Active task', new Date('2023-06-05 21:45')),
+      this.createListitem('Active task 1', new Date('2023-07-05 21:00')),
+      this.createListitem('Active task 2', new Date('2023-08-05 21:30')),
+      this.createListitem('Active task 3', new Date('2023-09-05 21:45')),
     ],
     buttons: [
       { text: 'All', selected: true, id: 1, filter: 'all' },
@@ -31,7 +30,7 @@ class App extends React.Component {
       checked: false,
       edited: false,
       time: `Created ${formatDistanceToNow(time, { includeSeconds: true })} ago`,
-      id: this.idCounter++,
+      id: uuidv4(),
     };
   }
 
@@ -118,12 +117,12 @@ class App extends React.Component {
   onCompleted = (id) => {
     this.setState(({ lists }) => {
       return {
-        lists: this.toggleProperty(lists, id, 'completed'),
+        lists: this.toggleProperty(lists, id, 'checked'),
       };
     });
     this.setState(({ lists }) => {
       return {
-        lists: this.toggleProperty(lists, id, 'checked'),
+        lists: this.toggleProperty(lists, id, 'completed'),
       };
     });
   };
