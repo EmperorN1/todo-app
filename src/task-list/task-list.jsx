@@ -4,7 +4,7 @@ import './task-list.css';
 
 import Task from '../task/task';
 
-const TaskList = ({ lists, onDelete, onCompleted, onEdit, completeEditing }) => {
+const TaskList = ({ lists, onDelete, onCompleted, onEdit, completeEditing, countDown }) => {
   const result = lists.map((i) => {
     return (
       <li key={i.id}>
@@ -13,6 +13,8 @@ const TaskList = ({ lists, onDelete, onCompleted, onEdit, completeEditing }) => 
           onDelete={() => onDelete(i.id)}
           onCompleted={() => onCompleted(i.id)}
           onEdit={() => onEdit(i.id)}
+          onStart={() => countDown('start', i.id, i.counting, i.time)}
+          onStop={() => countDown('stop', i.id, i.counting, i.time)}
           completeEditing={completeEditing}
         />
       </li>

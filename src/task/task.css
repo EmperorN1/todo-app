@@ -53,13 +53,16 @@ span label {
   justify-content: space-between;
   padding: 15px 85px 15px 60px;
 }
+span .view {
+	position: relative;
+}
 
 span label .created {
   font-size: 13px;
   color: gray;
 }
 
-span label .description {
+span label .title {
   word-break: break-all;
   display: block;
   line-height: 1.2;
@@ -68,9 +71,16 @@ span label .description {
   color: #4d4d4d;
 }
 
-span.completed label .description {
+span.completed label .title {
   color: #cdcdcd;
   text-decoration: line-through;
+}
+
+span label .description {
+  display: flex;
+  width: 85px;
+	font-size: 13px;
+	color: gray;
 }
 
 span .icon {
@@ -105,6 +115,27 @@ span .icon-edit {
 
 span .icon-edit:after {
   content: '✎';
+}
+
+span .icon-pause,
+span .icon-play {
+  margin-right: 10px;
+  position: relative;
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+span .icon-play {
+	font-size: 15px;
+}
+
+.icon-pause:after {
+	content: '⏸';
+}
+
+.icon-play:after {
+	content: '▶';
 }
 
 span .edit {

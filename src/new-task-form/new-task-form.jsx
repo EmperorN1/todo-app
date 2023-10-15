@@ -11,28 +11,58 @@ export default class NewTaskForm extends React.Component {
 
   state = {
     description: '',
+    minutes: '',
+    seconds: '',
   };
 
   onDescrChange = (e) => {
     this.setState({
       description: e.target.value,
     });
+    if (e.key == 'Enter') {
+      this.onSubmit(e);
+    }
+  };
+
+  onTimeChangeMin = (e) => {
+    if (e.target.value.length <= 2) {
+      this.setState({
+        minutes: e.target.value,
+      });
+    }
+    if (e.key == 'Enter') {
+      this.onSubmit(e);
+    }
+  };
+
+  onTimeChangeSec = (e) => {
+    if (e.target.value.length <= 2) {
+      this.setState({
+        seconds: e.target.value,
+      });
+    }
+    if (e.key == 'Enter') {
+      this.onSubmit(e);
+    }
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.description) {
-      this.props.onAdd(this.state.description);
+    if (this.state.description && this.state.minutes && this.state.seconds) {
+      const seconds = +this.state.seconds + this.state.minutes * 60;
+      this.props.onAdd(this.state.description, seconds);
+      this.setState({
+        description: '',
+        minutes: '',
+        seconds: '',
+      });
     }
-    this.setState({
-      description: '',
-    });
   };
 
   render() {
-    const { description } = this.state;
+    const { description, minutes, seconds } = this.state;
     return (
-      <form onSubmit={this.onSubmit}>
+      <form>
         <input
           type="text"
           className="new-todo"
@@ -41,6 +71,23 @@ export default class NewTaskForm extends React.Component {
           placeholder="What needs to be done?"
           autoFocus
         />
+        <input
+          type="number"
+          className="new-todo-form__timer"
+          onChange={this.onTimeChangeMin}
+          placeholder="Min"
+          autoFocus
+          value={minutes}
+        />
+        <input
+          type="number"
+          className="new-todo-form__timer"
+          onChange={this.onTimeChangeSec}
+          placeholder="Sec"
+          autoFocus
+          value={seconds}
+        />
+        <button onClick={this.onSubmit}></button>
       </form>
     );
   }
