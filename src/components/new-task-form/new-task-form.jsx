@@ -1,6 +1,5 @@
 import React from 'react';
 import './new-task-form.css';
-import '../index.css';
 
 export default class NewTaskForm extends React.Component {
   static defaultProps = {

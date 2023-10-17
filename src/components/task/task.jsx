@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './task.css';
-import '../index.css';
+
+import Timer from '../timer';
 
 export default class Task extends React.Component {
   static propTypes = {
     description: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     checked: PropTypes.bool.isRequired,
+    edited: PropTypes.bool.isRequired,
+    counting: PropTypes.bool.isRequired,
     time: PropTypes.string.isRequired,
   };
 
@@ -41,17 +44,21 @@ export default class Task extends React.Component {
     }
   };
 
-  formatTimer = (seconds) => {
-    let secondsTwoNumbers = seconds % 60;
-    if (secondsTwoNumbers.toString().length < 2) {
-      secondsTwoNumbers = '0' + secondsTwoNumbers;
-    }
-    return `${Math.floor(seconds / 60)}:${secondsTwoNumbers}`;
-  };
-
   render() {
-    const { description, create, time, onDelete, onCompleted, onEdit, onStart, onStop, completed, checked, edited } =
-      this.props;
+    const {
+      id,
+      description,
+      create,
+      counting,
+      time,
+      onDelete,
+      onCompleted,
+      onEdit,
+      completed,
+      checked,
+      edited,
+      countDown,
+    } = this.props;
 
     let className = 'view';
     if (completed) {
@@ -69,11 +76,11 @@ export default class Task extends React.Component {
             <span className="title" onClick={onCompleted}>
               {description}
             </span>
-            <span className="description">
-              <button className="icon icon-play" onClick={onStart}></button>
-              <button className="icon icon-pause" onClick={onStop}></button>
-              {this.formatTimer(time)}
-            </span>
+            <Timer
+              time={time}
+              onStart={() => countDown('start', id, counting, time)}
+              onStop={() => countDown('stop', id, counting, time)}
+            />
             <span className="created">{create}</span>
           </label>
           <button className="icon icon-edit" onClick={onEdit}></button>

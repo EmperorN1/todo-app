@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './footer.css';
-import '../index.css';
 
 import TasksFilter from '../tasks-filter/tasks-filter';
 

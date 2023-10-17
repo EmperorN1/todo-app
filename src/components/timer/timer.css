@@ -1,0 +1,20 @@
+  span .icon-pause,
+  span .icon-play {
+    margin-right: 10px;
+    position: relative;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+  }
+  
+  span .icon-play {
+      font-size: 15px;
+  }
+  
+  .icon-pause:after {
+      content: '⏸';
+  }
+  
+  .icon-play:after {
+      content: '▶';
+  }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './task-list.css';
 
-import Task from '../task/task';
+import Task from '../task';
 
 const TaskList = ({ lists, onDelete, onCompleted, onEdit, completeEditing, countDown }) => {
   const result = lists.map((i) => {
@@ -13,8 +13,7 @@ const TaskList = ({ lists, onDelete, onCompleted, onEdit, completeEditing, count
           onDelete={() => onDelete(i.id)}
           onCompleted={() => onCompleted(i.id)}
           onEdit={() => onEdit(i.id)}
-          onStart={() => countDown('start', i.id, i.counting, i.time)}
-          onStop={() => countDown('stop', i.id, i.counting, i.time)}
+          countDown={countDown}
           completeEditing={completeEditing}
         />
       </li>
