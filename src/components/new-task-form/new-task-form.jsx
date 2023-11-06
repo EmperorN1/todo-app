@@ -1,93 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './new-task-form.css';
 
-export default class NewTaskForm extends React.Component {
-  static defaultProps = {
-    onAdd: () => {
-      throw new Error('There is an Error in adding new task');
-    },
-  };
+const NewTaskForm = ({ onAdd }) => {
+  // static defaultProps = {
+  //   onAdd: () => {
+  //     throw new Error('There is an Error in adding new task');
+  //   },
+  // };
 
-  state = {
-    description: '',
-    minutes: '',
-    seconds: '',
-  };
+  const [description, setDescription] = useState('');
+  const [minutes, setMinutes] = useState('');
+  const [seconds, setSeconds] = useState('');
 
-  onDescrChange = (e) => {
-    this.setState({
-      description: e.target.value,
-    });
+  const onDescrChange = (e) => {
+    setDescription(e.target.value);
     if (e.key == 'Enter') {
-      this.onSubmit(e);
+      onSubmit(e);
     }
   };
 
-  onTimeChangeMin = (e) => {
+  const onTimeChangeMin = (e) => {
     if (e.target.value.length <= 2) {
-      this.setState({
-        minutes: e.target.value,
-      });
+      setMinutes(e.target.value);
     }
     if (e.key == 'Enter') {
-      this.onSubmit(e);
+      onSubmit(e);
     }
   };
 
-  onTimeChangeSec = (e) => {
+  const onTimeChangeSec = (e) => {
     if (e.target.value.length <= 2) {
-      this.setState({
-        seconds: e.target.value,
-      });
+      setSeconds(e.target.value);
     }
     if (e.key == 'Enter') {
-      this.onSubmit(e);
+      onSubmit(e);
     }
   };
 
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.description && this.state.minutes && this.state.seconds) {
-      const seconds = +this.state.seconds + this.state.minutes * 60;
-      this.props.onAdd(this.state.description, seconds);
-      this.setState({
-        description: '',
-        minutes: '',
-        seconds: '',
-      });
+    if (description && minutes && seconds) {
+      const sec = +seconds + minutes * 60;
+      onAdd(description, sec);
+      setDescription('');
+      setMinutes('');
+      setSeconds('');
     }
   };
 
-  render() {
-    const { description, minutes, seconds } = this.state;
-    return (
-      <form>
-        <input
-          type="text"
-          className="new-todo"
-          onChange={this.onDescrChange}
-          value={description}
-          placeholder="What needs to be done?"
-          autoFocus
-        />
-        <input
-          type="number"
-          className="new-todo-form__timer"
-          onChange={this.onTimeChangeMin}
-          placeholder="Min"
-          autoFocus
-          value={minutes}
-        />
-        <input
-          type="number"
-          className="new-todo-form__timer"
-          onChange={this.onTimeChangeSec}
-          placeholder="Sec"
-          autoFocus
-          value={seconds}
-        />
-        <button onClick={this.onSubmit}></button>
-      </form>
-    );
-  }
-}
+  return (
+    <form>
+      <input
+        type="text"
+        className="new-todo"
+        onChange={onDescrChange}
+        value={description}
+        placeholder="What needs to be done?"
+        autoFocus
+      />
+      <input
+        type="number"
+        className="new-todo-form__timer"
+        onChange={onTimeChangeMin}
+        placeholder="Min"
+        autoFocus
+        value={minutes}
+      />
+      <input
+        type="number"
+        className="new-todo-form__timer"
+        onChange={onTimeChangeSec}
+        placeholder="Sec"
+        autoFocus
+        value={seconds}
+      />
+      <button onClick={onSubmit}></button>
+    </form>
+  );
+};
+
+export default NewTaskForm;

@@ -2,24 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './tasks-filter.css';
 
-export default class TasksFilter extends React.Component {
-  static propTypes = {
-    text: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired,
-  };
+const TasksFilter = ({ text, selected, selectButton }) => {
+  let className = ' ';
 
-  render() {
-    const { text, selected, selectButton } = this.props;
-    let className = ' ';
-
-    if (selected) {
-      className += ' selected';
-    }
-
-    return (
-      <button className={className} onClick={selectButton}>
-        {text}
-      </button>
-    );
+  if (selected) {
+    className += ' selected';
   }
-}
+
+  return (
+    <button className={className} onClick={selectButton}>
+      {text}
+    </button>
+  );
+};
+
+export default TasksFilter;
+
+TasksFilter.propTypes = {
+  text: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+};
